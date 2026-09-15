@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grade 10 - Algebra Quiz (1)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Merriweather:wght@700&display=swap');
+
+  :root{
+    --navy:#12203f;
+    --navy-2:#1c3363;
+    --teal:#0e9b8a;
+    --gold:#e2a53a;
+    --paper:#faf8f2;
+    --ink:#1b2333;
+    --line:#d8d2c2;
+    --green:#1c8a5a;
+    --red:#c0392b;
+  }
+
+  *{ box-sizing:border-box; }
+
+  body{
+    margin:0;
+    background:#e9e5d8;
+    font-family:'Poppins', sans-serif;
+    color:var(--ink);
+  }
+
+  .sheet{
+    max-width:850px;
+    margin:24px auto;
+    background:var(--paper);
+    box-shadow:0 8px 30px rgba(18,32,63,0.25);
+    position:relative;
+    overflow:hidden;
+    border:1px solid var(--line);
+  }
+
+  /* ===== Header ===== */
+  .header{
+    background:linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 60%, #24447f 100%);
+    color:#fff;
+    padding:30px 36px 26px;
+    position:relative;
+    overflow:hidden;
+  }
+  .header svg.curve{
+    position:absolute; inset:0; width:100%; height:100%; opacity:0.35;
+  }
+  .eyebrow{
+    font-size:13px; letter-spacing:2px; color:var(--gold); font-weight:700;
+    position:relative; z-index:2; text-transform:uppercase;
+  }
+  .title{
+    font-size:28px; font-weight:800; margin:6px 0 2px; position:relative; z-index:2;
+  }
+  .subtitle{
+    font-size:15px; color:#cdd8f2; position:relative; z-index:2;
+  }
+
+  /* ===== Info strip ===== */
+  .info{
+    display:flex; flex-wrap:wrap; gap:14px;
+    padding:18px 36px; background:#fff; border-bottom:3px solid var(--gold);
+  }
+  .info .field{ flex:1 1 200px; display:flex; align-items:center; gap:8px; }
+  .info label{ font-weight:700; font-size:14px; color:var(--navy); white-space:nowrap; }
+  .info input{
+    flex:1; border:none; border-bottom:1.5px solid #9aa3b5; height:28px;
+    font-family:'Poppins',sans-serif; font-size:14px; background:transparent; outline:none;
+    padding:0 4px;
+  }
+  .info input:focus{ border-bottom-color:var(--teal); }
+
+  .rules{
+    padding:14px 36px; background:#f3efe1; font-size:13px; color:#5a5343;
+    border-bottom:1px solid var(--line);
+  }
+  .rules ul{ display:flex; gap:24px; flex-wrap:wrap; padding:0; margin:0; }
+  .rules li{ list-style:none; position:relative; padding-inline-start:16px; }
+  .rules li::before{
+    content:""; position:absolute; left:0; top:6px; width:6px;height:6px;
+    background:var(--teal); border-radius:50%;
+  }
+
+  /* ===== Questions ===== */
+  .questions{ padding:26px 36px 10px; }
+
+  .q{
+    margin-bottom:22px; padding-bottom:18px; border-bottom:1px dashed var(--line);
+  }
+  .q:last-child{ border-bottom:none; }
+
+  .q-head{ display:flex; align-items:flex-start; gap:12px; margin-bottom:12px; }
+  .q-num{
+    flex:0 0 34px; height:34px; width:34px; border-radius:9px; background:var(--navy);
+    color:#fff; display:flex; align-items:center; justify-content:center;
+    font-weight:800; font-size:15px; box-shadow:-2px 2px 0 var(--gold);
+  }
+  .q-text{ font-size:16px; font-weight:600; color:var(--navy); padding-top:4px; }
+  .q-text .math{ font-family:'Merriweather', serif; font-size:16px; color:var(--ink); }
+
+  .options{
+    display:grid; grid-template-columns:1fr 1fr; gap:10px; padding-inline-start:46px;
+  }
+
+  .opt{
+    display:flex; align-items:center; gap:10px; background:#fff;
+    border:1.5px solid #dfe3ec; border-radius:8px; padding:8px 12px; font-size:15px;
+    cursor:pointer; transition:border-color .15s, background .15s;
+    user-select:none;
+  }
+  .opt:hover{ border-color:var(--teal); }
+  .opt input[type=radio]{ display:none; }
+  .opt .letter{
+    flex:0 0 24px; height:24px; width:24px; border-radius:50%; border:1.5px solid var(--teal);
+    color:var(--teal); display:flex; align-items:center; justify-content:center;
+    font-weight:700; font-size:12px; transition:background .15s, color .15s;
+  }
+  .opt.selected{ border-color:var(--teal); background:#eafaf6; }
+  .opt.selected .letter{ background:var(--teal); color:#fff; }
+  .opt .math{ font-family:'Merriweather', serif; font-size:15px; }
+
+  .frac{
+    display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle;
+    margin:0 3px; font-size:13px; line-height:1.15;
+  }
+  .frac .num{ padding:0 3px 1px; border-bottom:1.3px solid var(--ink); }
+  .frac .den{ padding:1px 3px 0; }
+
+  .opt.correct{ border-color:var(--green); background:#eaf7ef; }
+  .opt.correct .letter{ background:var(--green); color:#fff; border-color:var(--green); }
+  .opt.wrong{ border-color:var(--red); background:#fbeceb; }
+  .opt.wrong .letter{ background:var(--red); color:#fff; border-color:var(--red); }
+
+  .submit-wrap{ padding:10px 36px 30px; text-align:center; }
+  .submit-btn{
+    background:var(--navy); color:#fff; border:none; padding:14px 40px;
+    border-radius:10px; font-family:'Poppins',sans-serif; font-weight:800; font-size:16px;
+    cursor:pointer; box-shadow:-3px 3px 0 var(--gold); transition:transform .1s;
+  }
+  .submit-btn:hover{ transform:translateY(-2px); }
+  .submit-btn:disabled{ opacity:.6; cursor:not-allowed; }
+  .warn{ color:var(--red); font-size:13px; margin-top:10px; font-weight:700; display:none; }
+
+  .footer{
+    padding:16px 36px 26px; text-align:center; color:var(--navy); font-weight:700; font-size:14px;
+  }
+  .footer .line{ width:80px; height:3px; background:var(--gold); margin:8px auto 10px; border-radius:2px; }
+
+  /* ===== Result panel ===== */
+  .result{
+    display:none; margin:0 36px 30px; background:#fff; border:2px solid var(--gold);
+    border-radius:14px; padding:22px 26px; text-align:center;
+  }
+  .result h3{ color:var(--navy); font-size:20px; margin:0 0 6px; }
+  .result .score{ font-size:42px; font-weight:800; color:var(--teal); margin:8px 0; }
+  .result .note{ font-size:13px; color:#666; margin-top:8px; }
+  .result .sync{ font-size:13px; color:var(--green); margin-top:6px; font-weight:700; }
+
+  @media (max-width:600px){
+    .options{ grid-template-columns:1fr; }
+    .info{ flex-direction:column; }
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="header">
+    <svg class="curve" viewBox="0 0 800 160" preserveAspectRatio="none">
+      <path d="M0,120 C 100,20 180,20 260,90 C 340,160 420,160 500,80 C 580,0 660,0 800,90"
+            fill="none" stroke="#e2a53a" stroke-width="3"/>
+      <path d="M0,150 C 120,60 220,60 300,120 C 380,180 460,180 560,110 C 640,55 720,55 800,120"
+            fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.5"/>
+    </svg>
+    <div class="eyebrow">Grade 10</div>
+    <div class="title">Algebra Quiz (1)</div>
+    <div class="subtitle">Unit: Algebra &nbsp;|&nbsp; Multiple Choice &nbsp;|&nbsp; 5 Questions</div>
+  </div>
+
+  <div class="info">
+    <div class="field"><label>Student Name:</label><input type="text" id="studentName" placeholder="Full name"></div>
+    <div class="field"><label>Group:</label><input type="text" id="studentGroup" placeholder="Group number/name"></div>
+  </div>
+
+  <div class="rules">
+    <ul>
+      <li>Choose one answer for each question by clicking it.</li>
+      <li>Total score: 5 points.</li>
+    </ul>
+  </div>
+
+  <form class="questions" id="examForm">
+    <!-- Questions injected by JS -->
+  </form>
+
+  <div class="submit-wrap">
+    <button class="submit-btn" id="submitBtn" type="button">Submit Test</button>
+    <div class="warn" id="warnMsg">Please enter your name and group, and answer all questions before submitting.</div>
+  </div>
+
+  <div class="result" id="resultPanel">
+    <h3>Your Score</h3>
+    <div class="score" id="scoreText">-- / 5</div>
+    <div class="note" id="resultNote"></div>
+    <div class="sync" id="syncNote">Sending your result to the teacher...</div>
+  </div>
+
+  <div class="footer">
+    <div class="line"></div>
+    End of test &nbsp;&mdash;&nbsp; Good luck ✦
+  </div>
+
+</div>
+
+<script>
+/* =====================================================================
+   Paste the same Google Apps Script URL you used for the Arabic test
+   ===================================================================== */
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwqlSa7y4HcPA1o1fbVwHtXFaYMZA_XGXDxl5N1xYMcZ6LmIYtUkQJkkETP72qk88Im/exec";
+
+/* Test questions: text + options + index of correct option (0=A,1=B,2=C,3=D) */
+const QUESTIONS = [
+  {
+    text: 'The solution set of the equation <span class="math">x<sup>2</sup> − 1 = 0</span> in &#8477; is:',
+    options: ['&empty;', '1', '&plusmn;1', '{1, &minus;1}'],
+    correct: 3
+  },
+  {
+    text: 'The solution set of the equation <span class="math">x<sup>2</sup> − 6x + 9 = 0</span> in &#8477; is:',
+    options: ['{&minus;3}', '{3}', '&empty;', '{9}'],
+    correct: 1
+  },
+  {
+    text: 'Which of the following is an imaginary number?',
+    options: ['&pi;', '&radic;5', '&radic;(&minus;5)', 'i<sup>2</sup>'],
+    correct: 2
+  },
+  {
+    text: 'The simplest form of the imaginary number <span class="math">i<sup>45</sup></span> is:',
+    options: ['i', '&minus;1', '&minus;i', '1'],
+    correct: 0
+  },
+  {
+    text: '<span class="math">5i<sup>7</sup> + 4i<sup>&minus;1</sup></span> = ..........',
+    options: ['9i', '&minus;9i', 'i', '&minus;i'],
+    correct: 1
+  }
+];
+
+const letters = ['A','B','C','D'];
+const form = document.getElementById('examForm');
+
+QUESTIONS.forEach((q, qi) => {
+  const qDiv = document.createElement('div');
+  qDiv.className = 'q';
+  qDiv.innerHTML = `
+    <div class="q-head">
+      <div class="q-num">${qi + 1}</div>
+      <div class="q-text">${q.text}</div>
+    </div>
+    <div class="options" id="opts-${qi}">
+      ${q.options.map((opt, oi) => `
+        <label class="opt" data-q="${qi}" data-o="${oi}">
+          <input type="radio" name="q${qi}" value="${oi}">
+          <div class="letter">${letters[oi]}</div>
+          <div class="math">${opt}</div>
+        </label>
+      `).join('')}
+    </div>
+  `;
+  form.appendChild(qDiv);
+});
+
+form.addEventListener('click', (e) => {
+  const opt = e.target.closest('.opt');
+  if (!opt) return;
+  const qi = opt.dataset.q;
+  document.querySelectorAll(`.opt[data-q="${qi}"]`).forEach(o => o.classList.remove('selected'));
+  opt.classList.add('selected');
+  opt.querySelector('input').checked = true;
+});
+
+document.getElementById('submitBtn').addEventListener('click', () => {
+  const name = document.getElementById('studentName').value.trim();
+  const group = document.getElementById('studentGroup').value.trim();
+  const warn = document.getElementById('warnMsg');
+
+  const answers = QUESTIONS.map((_, qi) => {
+    const checked = form.querySelector(`input[name="q${qi}"]:checked`);
+    return checked ? parseInt(checked.value, 10) : null;
+  });
+
+  if (!name || !group || answers.includes(null)) {
+    warn.style.display = 'block';
+    return;
+  }
+  warn.style.display = 'none';
+
+  let score = 0;
+  QUESTIONS.forEach((q, qi) => {
+    const opts = document.querySelectorAll(`.opt[data-q="${qi}"]`);
+    opts.forEach(o => o.style.pointerEvents = 'none');
+    const chosen = answers[qi];
+    if (chosen === q.correct) score++;
+    opts[q.correct].classList.add('correct');
+    if (chosen !== q.correct) opts[chosen].classList.add('wrong');
+  });
+
+  document.getElementById('submitBtn').disabled = true;
+  document.getElementById('scoreText').textContent = `${score} / 5`;
+  document.getElementById('resultNote').textContent =
+    score >= 4 ? 'Excellent! Great grasp of algebra 🌟' :
+    score >= 3 ? 'Good, review the questions you missed.' :
+    'You need more review of this unit.';
+  document.getElementById('resultPanel').style.display = 'block';
+  document.getElementById('resultPanel').scrollIntoView({behavior:'smooth'});
+
+  // Send result to Google Sheet
+  const syncNote = document.getElementById('syncNote');
+  if (GOOGLE_SCRIPT_URL.includes('PASTE_YOUR')) {
+    syncNote.textContent = 'Notice: submission link not set yet (ask your teacher).';
+    syncNote.style.color = '#c0392b';
+  } else {
+    fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: new URLSearchParams({
+        name: name,
+        group: group,
+        score: score,
+        total: 5,
+        timestamp: new Date().toLocaleString('en-GB')
+      })
+    }).then(() => {
+      syncNote.textContent = 'Result sent to teacher successfully ✓';
+    }).catch(() => {
+      syncNote.textContent = 'Could not send result, check your internet connection.';
+      syncNote.style.color = '#c0392b';
+    });
+  }
+});
+</script>
+</body>
+</html>
